@@ -11,19 +11,19 @@ const Entries_INITIAL_STATE: EntriesState = {
     entries: [
         {
             _id: uuidv4(),
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero atque facere maiores pariatur ullam harum, error laudantium culpa nemo doloribus unde nostrum autem distinctio facilis quas perferendis temporibus neque suscipit.',
+            description: 'Pendiente: Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero atque facere maiores pariatur.',
             status: 'pending',
             createdAt: Date.now()
         },
         {
             _id: uuidv4(),
-            description: 'Consequat enim nisi incididunt et irure ad excepteur tempor enim incididunt sunt quis.',
+            description: 'En progreso: Consequat enim nisi incididunt et irure ad excepteur tempor enim incididunt sunt quis.',
             status: 'in-progress',
             createdAt: Date.now() - 1000000
         },
         {
             _id: uuidv4(),
-            description: 'Non occaecat magna minim nulla mollit commodo dolore enim.',
+            description: 'Terminada: Non occaecat magna minim nulla mollit commodo dolore enim.',
             status: 'finished',
             createdAt: Date.now() - 100000
         }
@@ -34,9 +34,22 @@ export const EntriesProvider = ({ children }: { children: ReactNode }) => {
 
     const [state, dispatch] = useReducer(entriesReducer, Entries_INITIAL_STATE);
 
+    const addNewEntry = (description: string) => {
+        const newEntry: Entry = {
+            _id: uuidv4(),
+            description: description,
+            createdAt: Date.now(),
+            status: 'pending'
+        }
+
+        dispatch({ type: '[Entry] - Add-Entry', payload: newEntry });
+    }
+
     return (
         <EntriesContext.Provider value={{
-            ...state
+            ...state,
+            // Methods
+            addNewEntry
         }}>
             {children}
         </EntriesContext.Provider>
